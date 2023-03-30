@@ -712,7 +712,7 @@ def finetune_tab():
             sample_prompts,
         ) = sample_gradio_config()
 
-    button_run = gr.Button('Train model', variant='primary')
+    button_run = gr.Button('开始训练', variant='primary')
 
     # Setup gradio tensorboard buttons
     button_start_tensorboard, button_stop_tensorboard = gradio_tensorboard()

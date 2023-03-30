@@ -510,7 +510,7 @@ def gradio_config():
             )
             config_file_name = gr.Textbox(
                 label='',
-                placeholder="type the configuration file path or use the 'Open' button above to select it...",
+                placeholder="输入配置文件路径或使用上方的“打开”按钮进行选择...",
                 interactive=True,
             )
             button_load_config = gr.Button('Load 💾', elem_id='open_folder')
@@ -548,7 +548,7 @@ def gradio_source_model(save_model_as_choices = [
         # Define the input elements
         with gr.Row():
             pretrained_model_name_or_path = gr.Textbox(
-                label='Pretrained model name or path',
+                label='预训练模型路径/名称',
                 placeholder='enter the path to custom model or name of pretrained model',
                 value='runwayml/stable-diffusion-v1-5',
             )
@@ -571,7 +571,7 @@ def gradio_source_model(save_model_as_choices = [
                 show_progress=False,
             )
             model_list = gr.Dropdown(
-                label='Model Quick Pick',
+                label='快速选择模型预设(可以忽略)',
                 choices=[
                     'custom',
                     'stabilityai/stable-diffusion-2-1-base',
@@ -584,7 +584,7 @@ def gradio_source_model(save_model_as_choices = [
                 value='runwayml/stable-diffusion-v1-5',
             )
             save_model_as = gr.Dropdown(
-                label='Save trained model as',
+                label='训练好的模型保存后缀名',
                 choices=save_model_as_choices,
                 value='safetensors',
             )
@@ -656,17 +656,17 @@ def gradio_training(
         train_batch_size = gr.Slider(
             minimum=1,
             maximum=64,
-            label='Train batch size',
+            label='Train batch size(同时训练几个，跟显存相关)',
             value=1,
             step=1,
         )
-        epoch = gr.Number(label='Epoch', value=1, precision=0)
+        epoch = gr.Number(label='Epoch(训练几轮)', value=1, precision=0)
         save_every_n_epochs = gr.Number(
-            label='Save every N epochs', value=1, precision=0
+            label='每几个Epoch保存一个模型版本', value=1, precision=0
         )
         caption_extension = gr.Textbox(
-            label='Caption Extension',
-            placeholder='(Optional) Extension for caption files. default: .caption',
+            label='标题扩展名',
+            placeholder='（可选）标题文件的扩展名。默认值：.caption',
         )
     with gr.Row():
         mixed_precision = gr.Dropdown(
@@ -694,14 +694,14 @@ def gradio_training(
             label='Number of CPU threads per core',
             value=2,
         )
-        seed = gr.Textbox(label='Seed', placeholder='(Optional) eg:1234')
+        seed = gr.Textbox(label='Seed', placeholder='可选的初始随机数：例子1234')
         cache_latents = gr.Checkbox(label='Cache latent', value=True)
     with gr.Row():
         learning_rate = gr.Textbox(
-            label='Learning rate', value=learning_rate_value
+            label='(学习率)Learning rate(一般为1e-4，既0.0001)', value=learning_rate_value
         )
         lr_scheduler = gr.Dropdown(
-            label='LR Scheduler',
+            label='学习率调度器',
             choices=[
                 'adafactor',
                 'constant',
@@ -714,10 +714,10 @@ def gradio_training(
             value=lr_scheduler_value,
         )
         lr_warmup = gr.Textbox(
-            label='LR warmup (% of steps)', value=lr_warmup_value
+            label='学习率预热预热学习率的步数是总训练步数的一小部分，如1%或5%。(% of steps)', value=lr_warmup_value
         )
         optimizer = gr.Dropdown(
-            label='Optimizer',
+            label='优化器',
             choices=[
                 'AdamW',
                 'AdamW8bit',
@@ -732,7 +732,7 @@ def gradio_training(
         )
     with gr.Row():
         optimizer_args = gr.Textbox(
-            label='Optimizer extra arguments',
+            label='优化器额外参数（默认不动就行）',
             placeholder='(Optional) eg: relative_step=True scale_parameter=True warmup_init=True',
         )
     return (
@@ -799,15 +799,15 @@ def run_cmd_training(**kwargs):
 def gradio_advanced_training():
     with gr.Row():
         additional_parameters = gr.Textbox(
-            label='Additional parameters',
-            placeholder='(Optional) Use to provide additional parameters not handled by the GUI. Eg: --some_parameters "value"',
+            label='额外参数',
+            placeholder='这是一种可选的方式，可以在图形用户界面中未涉及到的情况下，提供额外的参数来进行模型训练。例如，可以使用 "--some_parameters "value"" 的形式来指定某些特定的参数值。',
         )
     with gr.Row():
         keep_tokens = gr.Slider(
-            label='Keep n tokens', value='0', minimum=0, maximum=32, step=1
+            label='前n个token不随机顺序', value='0', minimum=0, maximum=32, step=1
         )
         clip_skip = gr.Slider(
-            label='Clip skip', value='1', minimum=1, maximum=12, step=1
+            label='Clip skip(动漫2，真人1)', value='1', minimum=1, maximum=12, step=1
         )
         max_token_length = gr.Dropdown(
             label='Max Token Length',
@@ -852,7 +852,7 @@ def gradio_advanced_training():
             label='Random crop instead of center crop', value=False
         )
         noise_offset = gr.Textbox(
-            label='Noise offset (0 - 1)', placeholder='(Oprional) eg: 0.1'
+            label='Noise offset (0 - 1)', placeholder='建议0.1'
         )
 
     with gr.Row():

@@ -642,7 +642,7 @@ def lora_tab(
     dummy_db_true = gr.Label(value=True, visible=False)
     dummy_db_false = gr.Label(value=False, visible=False)
     gr.Markdown(
-        'Train a custom model using kohya train network LoRA python code...'
+        '使用kohya train network LoRA Python代码训练自定义模型...'
     )
     (
         button_open_config,
@@ -668,8 +668,8 @@ def lora_tab(
     with gr.Tab('Folders'):
         with gr.Row():
             train_data_dir = gr.Textbox(
-                label='Image folder',
-                placeholder='Folder where the training folders containing the images are located',
+                label='图片文件夹',
+                placeholder='含图片的训练集文件夹路径',
             )
             train_data_dir_folder = gr.Button('📂', elem_id='open_folder_small')
             train_data_dir_folder.click(
@@ -678,8 +678,8 @@ def lora_tab(
                 show_progress=False,
             )
             reg_data_dir = gr.Textbox(
-                label='Regularisation folder',
-                placeholder='(Optional) Folder where where the regularization folders containing the images are located',
+                label='正则化文件夹',
+                placeholder='（可选）包含正则化图片的正则化文件夹所在的文件夹路径',
             )
             reg_data_dir_folder = gr.Button('📂', elem_id='open_folder_small')
             reg_data_dir_folder.click(
@@ -689,8 +689,8 @@ def lora_tab(
             )
         with gr.Row():
             output_dir = gr.Textbox(
-                label='Output folder',
-                placeholder='Folder to output trained model',
+                label='输出文件夹',
+                placeholder='训练好的lora模型存放的位置',
             )
             output_dir_folder = gr.Button('📂', elem_id='open_folder_small')
             output_dir_folder.click(
@@ -699,8 +699,8 @@ def lora_tab(
                 show_progress=False,
             )
             logging_dir = gr.Textbox(
-                label='Logging folder',
-                placeholder='Optional: enable logging and output TensorBoard log to this folder',
+                label='日志文件夹',
+                placeholder='可选：启用日志记录并将TensorBoard日志输出到此文件夹',
             )
             logging_dir_folder = gr.Button('📂', elem_id='open_folder_small')
             logging_dir_folder.click(
@@ -710,14 +710,14 @@ def lora_tab(
             )
         with gr.Row():
             output_name = gr.Textbox(
-                label='Model output name',
-                placeholder='(Name of the model to output)',
+                label='lora模型名称',
+                placeholder='你想要保存的lora名称',
                 value='last',
                 interactive=True,
             )
             training_comment = gr.Textbox(
-                label='Training comment',
-                placeholder='(Optional) Add training comment to be included in metadata',
+                label='训练注释',
+                placeholder='（可选）添加要包含在元数据中的训练注释',
                 interactive=True,
             )
         train_data_dir.change(
@@ -743,7 +743,7 @@ def lora_tab(
     with gr.Tab('Training parameters'):
         with gr.Row():
             LoRA_type = gr.Dropdown(
-                label='LoRA type',
+                label='LoRA 种类',
                 choices=[
                     'Kohya LoCon',
                     # 'LoCon',
@@ -754,8 +754,8 @@ def lora_tab(
                 value='Standard',
             )
             lora_network_weights = gr.Textbox(
-                label='LoRA network weights',
-                placeholder='{Optional) Path to existing LoRA network weights to resume training',
+                label='LoRA network weights（网络权重）',
+                placeholder='（可选）现有LoRA网络权重的路径，以便继续训练',
             )
             lora_network_weights_file = gr.Button(
                 document_symbol, elem_id='open_folder_small'
@@ -789,19 +789,19 @@ def lora_tab(
 
         with gr.Row():
             text_encoder_lr = gr.Textbox(
-                label='Text Encoder learning rate',
+                label='(标签权重学习率)Text Encoder learning rate(一般为上面lr的十分之一，既0.00001)',
                 value='5e-5',
                 placeholder='Optional',
             )
             unet_lr = gr.Textbox(
-                label='Unet learning rate',
+                label='Unet学习率,常见设置为1e-4或1e-5',
                 value='0.0001',
                 placeholder='Optional',
             )
             network_dim = gr.Slider(
                 minimum=1,
                 maximum=1024,
-                label='Network Rank (Dimension)',
+                label='网络维度（Dim,lora32,locon16,loha8）',
                 value=8,
                 step=1,
                 interactive=True,
@@ -809,7 +809,7 @@ def lora_tab(
             network_alpha = gr.Slider(
                 minimum=0.1,
                 maximum=1024,
-                label='Network Alpha',
+                label='网络L1正则化(lora1,locon8,loha4)',
                 value=1,
                 step=0.1,
                 interactive=True,
@@ -823,14 +823,14 @@ def lora_tab(
                 maximum=512,
                 value=1,
                 step=1,
-                label='Convolution Rank (Dimension)',
+                label='卷积维度 (Dim,lora不需要,locon8,loha4)',
             )
             conv_alpha = gr.Slider(
                 minimum=0.1,
                 maximum=512,
                 value=1,
                 step=0.1,
-                label='Convolution Alpha',
+                label='卷积操作L1正则化(lora不需要,locon1,loha1)',
             )
         # Show of hide LoCon conv settings depending on LoRA type selection
         def LoRA_type_change(LoRA_type):
@@ -850,7 +850,7 @@ def lora_tab(
         )
         with gr.Row():
             max_resolution = gr.Textbox(
-                label='Max resolution',
+                label='最大分辨率',
                 value='512,512',
                 placeholder='512,512',
             )
@@ -862,7 +862,7 @@ def lora_tab(
                 label='Stop text encoder training',
             )
             enable_bucket = gr.Checkbox(label='Enable buckets', value=True)
-        with gr.Accordion('Advanced Configuration', open=False):
+        with gr.Accordion('高级配置', open=False):
             with gr.Row():
                 no_token_padding = gr.Checkbox(
                     label='No token padding', value=False
@@ -872,11 +872,12 @@ def lora_tab(
                 )
             with gr.Row():
                 prior_loss_weight = gr.Number(
-                    label='Prior loss weight', value=1.0
+                    label='正则化图像损失的权重,默认1', value=1.0
                 )
                 lr_scheduler_num_cycles = gr.Textbox(
-                    label='LR number of cycles',
+                    label='学习率循环次数',
                     placeholder='(Optional) For Cosine with restart and polynomial only',
+                    help="学习率循环次数（LR number of cycles）指的是在超参数调整过程中，学习率（Learning Rate）变化的周期数。学习率循环是指在一定范围内，通过逐渐增加学习率来加快模型收敛速度，并在学习率达到最大值后逐渐降低学习率，以避免学习率过大导致的震荡和不稳定。学习率循环次数越多，模型收敛速度越快，但同时也增加了计算和内存开销。在进行模型训练时，需要根据具体任务和数据集的大小来确定学习率循环次数，以达到最佳的训练效果。"
                 )
 
                 lr_scheduler_power = gr.Textbox(
@@ -925,7 +926,7 @@ def lora_tab(
 
     with gr.Tab('Tools'):
         gr.Markdown(
-            'This section provide Dreambooth tools to help setup your dataset...'
+            '本栏提供Dreambooth工具来帮助设置您的数据集...'
         )
         gradio_dreambooth_folder_creation_tab(
             train_data_dir_input=train_data_dir,
@@ -939,9 +940,9 @@ def lora_tab(
         gradio_resize_lora_tab()
         gradio_verify_lora_tab()
 
-    button_run = gr.Button('Train model', variant='primary')
+    button_run = gr.Button('开始训练', variant='primary')
 
-    button_print = gr.Button('Print training command')
+    button_print = gr.Button('打印训练命令')
 
     # Setup gradio tensorboard buttons
     button_start_tensorboard, button_stop_tensorboard = gradio_tensorboard()

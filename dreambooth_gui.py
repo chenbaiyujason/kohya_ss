@@ -752,7 +752,7 @@ def dreambooth_tab(
             logging_dir_input=logging_dir,
         )
 
-    button_run = gr.Button('Train model', variant='primary')
+    button_run = gr.Button('开始训练', variant='primary')
 
     # Setup gradio tensorboard buttons
     button_start_tensorboard, button_stop_tensorboard = gradio_tensorboard()
